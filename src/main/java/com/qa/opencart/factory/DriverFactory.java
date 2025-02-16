@@ -12,18 +12,29 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class DriverFactory {
 	
-	WebDriver driver;
-	Properties prop;
+	public WebDriver driver;
+	public Properties prop;
+	public OptionsManager optionsManager;
+	public static String highlight;
 	
-	public WebDriver initDriver(String browserName) {
-		if(browserName.trim().equalsIgnoreCase("chrome")) {
-			driver=new ChromeDriver();
+	
+	public WebDriver initDriver(Properties prop) {//browser name is passing then it should be an string parameter 
+		
+		optionsManager=new OptionsManager(prop);
+		highlight= prop.getProperty("highlight");
+		
+		String browserName =prop.getProperty("browser").toLowerCase().trim();
+		if(browserName.equalsIgnoreCase("chrome")) {
+			//driver=new ChromeDriver();
+			driver=new ChromeDriver(optionsManager.getChromeOptions());//reading config file and passing headless/incognito
 		}
-		else if (browserName.trim().equalsIgnoreCase("firefox")) {
-			driver=new FirefoxDriver();
+		else if (browserName.equalsIgnoreCase("firefox")) {
+			//driver=new FirefoxDriver();
+			driver=new FirefoxDriver(optionsManager.getFirefoxOptions());
 		}
-		else if (browserName.trim().equalsIgnoreCase("edge")) {
-			driver=new EdgeDriver();
+		else if (browserName.equalsIgnoreCase("edge")) {
+			//driver=new EdgeDriver();
+			driver=new EdgeDriver(optionsManager.getEdgeOptions());
 		}
 		
 		driver.manage().deleteAllCookies();
@@ -32,6 +43,13 @@ public class DriverFactory {
 		return driver;
 		
 	}
+	
+	/**
+	 * this method is initializing the driver on the basis of given browser name
+	 * 
+	 * @param browserName
+	 * @return this returns the driver
+	 */
 	 
 	public Properties initProp() {
 		prop=new Properties();

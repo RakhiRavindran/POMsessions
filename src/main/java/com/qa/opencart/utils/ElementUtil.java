@@ -37,9 +37,9 @@ public class ElementUtil {
 
 	public WebElement getElement(By locator) {
 		WebElement element = driver.findElement(locator);
-//		if (Boolean.parseBoolean(DriverFactory.highlight)) {
-//			jsUtil.flash(element);
-//		}
+		if (Boolean.parseBoolean(DriverFactory.highlight)) {
+			jsUtil.flash(element);
+		}
 		return element;
 	}
 
@@ -52,7 +52,9 @@ public class ElementUtil {
 	}
 
 	public void doSendKeys(By locator, String value) {
-		getElement(locator).sendKeys(value);
+		WebElement element =getElement(locator);
+		element.clear();
+		element.sendKeys(value);
 	}
 
 	public void doActionsSendKeys(By locator, String value) {
@@ -78,13 +80,13 @@ public class ElementUtil {
 	}
 
 	public String getElementAttribute(By locator, String attrName) {
-		return getElement(locator).getAttribute(attrName);
+		return getElement(locator).getDomAttribute(attrName);
 	}
 
 	public void getElementAttributes(By locator, String attrName) {
 		List<WebElement> eleList = getElements(locator);
 		for (WebElement e : eleList) {
-			String attrVal = e.getAttribute(attrName);
+			String attrVal = e.getDomAttribute(attrName);
 			System.out.println(attrVal);
 		}
 	}

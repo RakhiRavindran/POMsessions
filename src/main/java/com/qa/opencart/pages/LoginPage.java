@@ -17,8 +17,10 @@ public class LoginPage {
 	By loginBtn=By.xpath("//input[@value='Login']");
 	By forgotPassword=By.linkText("Forgotten Password");
 	
+	By register =By.linkText("Register");
+	
 	//2. public constructor
-	public LoginPage(WebDriver driver) {
+	public LoginPage(WebDriver driver) {//will call when obj. is created in baseTest- and will pass webdriver value and maintain the session id
 		this.driver=driver;
 		eleUtil=new ElementUtil(driver);
 		
@@ -46,8 +48,13 @@ public class LoginPage {
 		eleUtil.doSendKeys(password, pwd);
 		eleUtil.doClick(loginBtn);
 		
-		return new AccountPage(driver);
+		return new AccountPage(driver);//here we are creating a obj. of a/c page with parameter so we have to write the constructor in same structure
 		
+	}
+	
+	public RegisterPage navigateToRegPage() {
+		eleUtil.doClick(register);
+		return new RegisterPage(driver);
 	}
 		
 	
